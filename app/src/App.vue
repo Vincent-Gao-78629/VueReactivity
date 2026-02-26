@@ -22,14 +22,16 @@ const operator = ref(null)
 const result = ref(null)
 
 function selectNumber(number) {
-  if (number1.value === null) {
+  if (operator.value === null) {
     number1.value = number
   } else {
     number2.value = number
   }
 }
 function selectOperator(op) {
-  operator.value = op
+  if (number1.value != null) {
+    operator.value = op
+  }
 }
 function add() {
   result.value = number1.value + number2.value
