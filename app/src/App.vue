@@ -8,6 +8,7 @@
   <button @click="selectOperator('*')">*</button>
   <button @click="selectOperator('/')">/</button>
   <button @click="calculate">=</button>
+  <button @click="removeLast">Delete</button>
   <button @click="clear">Clear</button>
   <div>{{ number1 }} {{ operator }} {{ number2 }} = {{ result }}</div>
 </template>
@@ -16,6 +17,7 @@
 import { ref } from 'vue'
 
 const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+const input = ref('')
 const number1 = ref(null)
 const number2 = ref(null)
 const operator = ref(null)
@@ -23,14 +25,17 @@ const result = ref(null)
 
 function selectNumber(number) {
   if (operator.value === null) {
-    number1.value = number
+    input.value += number
+    number1.value = Number(input.value)
   } else {
-    number2.value = number
+    input.value += number
+    number2.value = Number(input.value)
   }
 }
 function selectOperator(op) {
   if (number1.value != null) {
     operator.value = op
+    input.value = ''
   }
 }
 function add() {
@@ -42,14 +47,23 @@ function subtract() {
 function multiply() {
   result.value = number1.value * number2.value
 }
+
 function divide() {
-  if (number2.value !== 0) {
+  if (number2.value != 0) {
     result.value = number1.value / number2.value
   } else {
     result.value = 'Error: Division by zero'
   }
 }
-
+function removeLast(number1, number2) {
+  if (operator.value === null) {
+    input.value.slice(0, -1, 1)
+    number1.value = Number(input.value)
+  } else {
+    input.value.slice(0, -1, 1)
+    number2.value = Number(input.value)
+  }
+}
 function calculate() {
   if (operator.value === '+') {
     add()
@@ -62,6 +76,7 @@ function calculate() {
   }
 }
 function clear() {
+  input.value = ''
   number1.value = null
   number2.value = null
   operator.value = null
