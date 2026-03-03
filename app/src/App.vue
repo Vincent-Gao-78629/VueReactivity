@@ -8,8 +8,8 @@
   <button @click="selectOperator('*')">*</button>
   <button @click="selectOperator('/')">/</button>
   <button @click="calculate">=</button>
-  <button @click="removeLast">Delete</button>
-  <button @click="clear">Clear</button>
+  <button @click="removeLast">CE</button>
+  <button @click="clear">C</button>
   <div>{{ number1 }} {{ operator }} {{ number2 }} = {{ result }}</div>
 </template>
 
@@ -55,15 +55,7 @@ function divide() {
     result.value = 'Error: Division by zero'
   }
 }
-function removeLast(number1, number2) {
-  if (operator.value === null) {
-    input.value.slice(0, -1, 1)
-    number1.value = Number(input.value)
-  } else {
-    input.value.slice(0, -1, 1)
-    number2.value = Number(input.value)
-  }
-}
+function removeLast(number1, number2) {}
 function calculate() {
   if (operator.value === '+') {
     add()
@@ -87,7 +79,9 @@ function clear() {
 <style scoped>
 button {
   margin: 2px;
-  padding: 10px;
+  height: 50px;
+  width: 50px;
+  padding: 1px;
   font-size: 18px;
 }
 </style>
