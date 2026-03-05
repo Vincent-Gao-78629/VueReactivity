@@ -1,15 +1,24 @@
 <template>
   <h1>Calculator</h1>
-  <button v-for="number in numbers" :key="number" @click="selectNumber(number)">
-    {{ number }}
-  </button>
-  <button @click="selectOperator('+')">+</button>
-  <button @click="selectOperator('-')">-</button>
-  <button @click="selectOperator('*')">*</button>
-  <button @click="selectOperator('/')">/</button>
-  <button @click="calculate">=</button>
-  <button @click="removeLast">CE</button>
-  <button @click="clear">C</button>
+  <div id="calcButtons">
+    <button v-for="number in numbers" :key="number" @click="selectNumber(number)">
+      {{ number }}
+    </button>
+    <button @click="calculate">=</button>
+    <!-- make calc stop selection -->
+
+    <button @click="selectOperator('+')">+</button>
+    <button @click="selectOperator('-')">-</button>
+    <button @click="selectOperator('*')">*</button>
+    <button @click="selectOperator('/')">/</button>
+    <button @click="removeLast">CE</button>
+    <!-- bad -->
+    <button @click="negate">(−)</button>
+    <!-- bad -->
+
+    <button @click="clear">C</button>
+  </div>
+
   <div>{{ number1 }} {{ operator }} {{ number2 }} = {{ result }}</div>
 </template>
 
@@ -33,8 +42,9 @@ function selectNumber(number) {
   }
 }
 function selectOperator(op) {
-  if (number1.value != null) {
-    operator.value = op
+  if (number1.value != null || number2.value === null) {
+    // make so if have nnumber2, op cant be seelc, after calc, n2 cant seelct
+    operator.value = opt
     input.value = ''
   }
 }
@@ -56,6 +66,17 @@ function divide() {
   }
 }
 function removeLast(number1, number2) {}
+
+function negate(number1, number2) {
+  if (operator.value === null) {
+    input.value += number
+    number1.value = -1 * Number(input.value)
+  } else {
+    input.value += number
+    number2.value = -1 * Number(input.value)
+  }
+}
+
 function calculate() {
   if (operator.value === '+') {
     add()
@@ -77,6 +98,11 @@ function clear() {
 </script>
 
 <style scoped>
+#calcButtons {
+  flex: auto;
+  max-width: 15%;
+}
+
 button {
   margin: 2px;
   height: 50px;
